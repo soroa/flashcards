@@ -68,6 +68,15 @@ public class Word {
 		return sqLiteDatabase.insert(MYDATABASE_LIBRARY, null, contentValues);
 	}
 	
+	public long insert(Flashcard_struct card) {
+		ContentValues contentValues = new ContentValues();
+		contentValues.put(KEY_QUESTION, card.question);
+		contentValues.put(KEY_SOLUTION, card.solution);
+		contentValues.put(KEY_MISTAKES, card.mistakes);
+		return sqLiteDatabase.insert(MYDATABASE_LIBRARY, null, contentValues);
+	}
+	
+	
 	public int deleteAll() {
 		return sqLiteDatabase.delete(MYDATABASE_LIBRARY, null, null);
 	}
