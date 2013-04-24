@@ -13,6 +13,7 @@ import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteDatabase;
 import android.content.ContentValues;
 
+
 public class Word {
 	
 	public static final String MYDATABASE_NAME = "Flashcard_DATABASE";
@@ -78,6 +79,23 @@ public class Word {
 
 		return cursor;
 	}
+	
+	/**
+	 * @param index of the flashcard start with 0
+	 * @return the flashcard ! null if not found
+	 */
+	public Flashcard_struct getCard(int number){
+		Cursor cursor = queueAll();
+		if (cursor != null)
+			cursor.moveToFirst();
+		else 
+			return null;
+		for (int i=0; i<number; i++){
+			cursor.moveToNext();
+		}
+		return new Flashcard_struct(cursor.getString(0),cursor.getString(1), cursor.getShort(2));
+	}
+	
 	/*public static final String KEY_STRING = "question";
 	public static final String KEY_STRING = "answer";
 	public static final */
