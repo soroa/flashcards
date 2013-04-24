@@ -105,6 +105,25 @@ public class Word {
 		return new Flashcard_struct(cursor.getString(0),cursor.getString(1), cursor.getShort(2));
 	}
 	
+	/**
+	 * @param question search a flashcard with the given question
+	 * @return the flashcard ! null if not found
+	 */
+	public Flashcard_struct getCard(String question){
+		Cursor cursor = queueAll();
+		if (cursor != null)
+			cursor.moveToFirst();
+		else 
+			return null;
+		do{
+			if(cursor.getString(0).equals(question)){
+				return new Flashcard_struct(cursor.getString(0), cursor.getString(1), cursor.getShort(2));
+			}
+		}while(cursor.moveToNext());
+		return null;
+	}
+	
+	
 	/*public static final String KEY_STRING = "question";
 	public static final String KEY_STRING = "answer";
 	public static final */
