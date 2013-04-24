@@ -8,5 +8,6 @@ public class Flashcard_struct {
 		question=q;
 		solution=s;
 		mistakes=m;
+		//hallo test test test
 	}
 }
