@@ -1,17 +1,11 @@
 package com.example.flashcards;
 
-import java.sql.Date;
-import java.util.Calendar;
-import android.content.ContentValues;
-import android.database.sqlite.SQLiteDatabase;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
-import android.database.sqlite.SQLiteDatabase;
-import android.content.ContentValues;
+import android.database.sqlite.SQLiteOpenHelper;
 
 
 public class Word {
@@ -36,21 +30,26 @@ public class Word {
 	private SQLiteHelper sqLiteHelper;
 	private SQLiteDatabase sqLiteDatabase;
 	
-	private Context libraryname;
-	
-	public Word(Context c){
-		libraryname=c;
+	private Context context;
+	private String libraryname;
+	/** 
+	 * @param  Context, just put "this" in
+	 * @param string with the name of the bibliothek
+	 */
+	public Word(Context c, String name){
+		libraryname=name;
+		context=c;
 	}
 	
 	
 	public Word openToRead() throws android.database.SQLException {
-		sqLiteHelper = new SQLiteHelper(libraryname, MYDATABASE_NAME, null, MYDATABASE_VERSION);
+		sqLiteHelper = new SQLiteHelper(context, libraryname, null, MYDATABASE_VERSION);
 		sqLiteDatabase = sqLiteHelper.getReadableDatabase();
 		return this;
 	}
 
 	public Word openToWrite() throws android.database.SQLException {
-		sqLiteHelper = new SQLiteHelper(libraryname, MYDATABASE_NAME, null, MYDATABASE_VERSION);
+		sqLiteHelper = new SQLiteHelper(context, libraryname, null, MYDATABASE_VERSION);
 		sqLiteDatabase = sqLiteHelper.getWritableDatabase();
 		return this;
 	}
@@ -78,7 +77,7 @@ public class Word {
 	
 	
 	public int deleteAll() {
-		return sqLiteDatabase.delete(MYDATABASE_LIBRARY, null, null);
+		return sqLiteDatabase.delete(libraryname, null, null);
 	}
 	
 	public Cursor queueAll() {
@@ -124,9 +123,9 @@ public class Word {
 	}
 	
 	
-	/*public static final String KEY_STRING = "question";
-	public static final String KEY_STRING = "answer";
-	public static final */
+	/**
+	 * Is a Class for Class Word 
+	 */
 	public class SQLiteHelper extends SQLiteOpenHelper {
 
 		public SQLiteHelper(Context context, String name,
