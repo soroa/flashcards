@@ -99,6 +99,7 @@ public class Word {
 		else 
 			return null;
 		for (int i=0; i<number; i++){
+			if(cursor.isLast()){ return null;}
 			cursor.moveToNext();
 		}
 		return new Flashcard_struct(cursor.getString(0),cursor.getString(1), cursor.getShort(2));
