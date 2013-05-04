@@ -3,7 +3,6 @@ package com.example.flashcards;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import android.app.Activity;
 import android.content.Context;
 
@@ -18,47 +17,89 @@ public class My_Biblio_class implements Bibliothek_IO {
 	
 	@Override
 	public boolean delete_biblio(String bibliothek) {
-		Word temp = new Word(main_context, bibliothek);
+		SQL_IO_Class temp = new SQL_IO_Class(main_context, bibliothek);
 		temp.openToWrite();
-		boolean rueck = (0 < temp.deleteAll());
+		boolean rueck = (temp.deleteAll());
 		temp.close();
 		return rueck;
 	}
 
 	@Override
 	public Flashcard_struct[] getAllWords(String library) {
-		Word temp = new Word(main_context, library);
-		List<Flashcard_struct> list_Fc = new List<Flashcard_struct>();
-		for( int i=0; temp.getCard(i)!=null; i++){
-			list_Fc.add(temp.getCard(i));
+		SQL_IO_Class temp = new SQL_IO_Class(main_context, library);
+		temp.openToRead();
+		Flashcard_struct[] rueck = temp.getAll();
+		temp.close();
+		return rueck;
+	}
+
+	@Override
+	public boolean change_Word_byFront(String library, String question,	Flashcard_struct newcard) {
+		SQL_IO_Class temp = new SQL_IO_Class(main_context, library);
+		temp.openToRead();
+		Flashcard_struct cardToChange = temp.getCard_byFront(question);
+		temp.close();
+		if(cardToChange==null){return false;}//if card doesn't exist
+		
+		temp.openToWrite();
+		boolean rueck= temp.deleteFlashcard_struct(cardToChange);
+		if(rueck){
+			temp.insert(newcard);
 		}
-		return null;
+		temp.close();
+		return rueck;
 	}
 
 	@Override
-	public boolean change_Word_byFront(String library, String question,
-			Flashcard_struct newcard) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean change_Word_byBack(String library, String solution,
-			Flashcard_struct newcard) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean change_Word_byBack(String library, String solution,Flashcard_struct newcard) {
+		SQL_IO_Class temp = new SQL_IO_Class(main_context, library);
+		temp.openToRead();
+		Flashcard_struct cardToChange = temp.getCard_byBack(solution);
+		temp.close();
+		if(cardToChange==null){return false;}//if card doesn't exist
+		
+		temp.openToWrite();
+		boolean rueck= temp.deleteFlashcard_struct(cardToChange);
+		if(rueck){
+			temp.insert(newcard);
+		}
+		temp.close();
+		return rueck;
 	}
 
 	@Override
 	public boolean delete_Word_byFront(String library, String question) {
-		// TODO Auto-generated method stub
-		return false;
+		SQL_IO_Class temp = new SQL_IO_Class(main_context, library);
+		temp.openToRead();
+		Flashcard_struct cardToDelete = temp.getCard_byFront(question);
+		temp.close();
+		if(cardToDelete==null){return false;}
+		temp.openToWrite();
+		boolean rueck= temp.deleteFlashcard_struct(cardToDelete);
+		temp.close();
+		return rueck;
 	}
 
 	@Override
 	public boolean delete_Word_byBack(String library, String solution) {
-		// TODO Auto-generated method stub
-		return false;
+		SQL_IO_Class temp = new SQL_IO_Class(main_context, library);
+		temp.openToRead();
+		Flashcard_struct cardToDelete = temp.getCard_byBack(solution);
+		temp.close();
+		if(cardToDelete==null){return false;}
+		temp.openToWrite();
+		boolean rueck= temp.deleteFlashcard_struct(cardToDelete);
+		temp.close();
+		return rueck;
+	}
+
+	@Override
+	public boolean insert_new_Card(String library, Flashcard_struct cardToInsert) {
+		SQL_IO_Class temp = new SQL_IO_Class(main_context, library);
+		temp.openToWrite();
+		boolean rueck = (-1!=temp.insert(cardToInsert));
+		temp.close();
+		return rueck;
 	}
 
 }
