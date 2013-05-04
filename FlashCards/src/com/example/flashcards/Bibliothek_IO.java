@@ -6,6 +6,19 @@ public interface Bibliothek_IO {
 	
 	
 	
+	/**
+	 * creats a new library with the given name
+	 * @param name of the new library
+	 * @return if the library was created
+	 */
+	public boolean create_library(String libraryName);
+	
+	
+	/**
+	 * looks up if there are unrecongized librarys
+	 * @return Filename of the new Library
+	 */
+	public String lookUpForNewLibrarys();
 	
 	/**
 	 * Delete a existing library 
@@ -13,7 +26,7 @@ public interface Bibliothek_IO {
 	 * @param name of the library to delete
 	 * @return if library has been deleted
 	 */
-	public boolean delete_biblio(String library);
+	public boolean delete_library(String library);
 	
 	/**
 	 * Get all Words in a Flashcard_struct-Array

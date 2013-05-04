@@ -1,10 +1,14 @@
 package com.example.flashcards;
 
 
+import java.io.File;
+import java.io.FilenameFilter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import android.app.Activity;
 import android.content.Context;
+import android.os.Environment;
 
 
 public class My_Biblio_class implements Bibliothek_IO {
@@ -15,8 +19,47 @@ public class My_Biblio_class implements Bibliothek_IO {
 		main_context=c;		
 	}
 	
+	
+	private String[] load_library_names(){
+		//filefilter to find only needed files
+		FilenameFilter libraryFilter = new FilenameFilter() {
+		    public boolean accept(File dir, String name) {
+		    if(name.endsWith(".FlashcardLib") || name.endsWith(".fcl")) {
+		            return true;
+		        }else{
+		        	return false;
+		        }
+		    }
+		};
+		//filefilter to find the file with the saved librarynames
+		FilenameFilter libraryNameFilter = new FilenameFilter() {
+		    public boolean accept(File dir, String name) {
+		    if(name.equals("FlashcardsLibraryName.fclProtect")) {
+		            return true;
+		        }else{
+		        	return false;
+		        }
+		    }
+		};
+		
+		File file[] = Environment.getExternalStorageDirectory().listFiles(libraryNameFilter); 
+		if(file.length==0){
+			try {
+				File newFile = new File(Environment.getExternalStorageDirectory().getPath(), "FlashcardsLibraryName.fclProtect");
+				newFile.createNewFile();
+			} catch (IOException e) {
+				//Big Problem if this is reached
+				e.printStackTrace();
+			}
+		}
+		
+		return null;
+	}
+	
+	
+	
 	@Override
-	public boolean delete_biblio(String bibliothek) {
+	public boolean delete_library(String bibliothek) {
 		SQL_IO_Class temp = new SQL_IO_Class(main_context, bibliothek);
 		temp.openToWrite();
 		boolean rueck = (temp.deleteAll());
@@ -100,6 +143,18 @@ public class My_Biblio_class implements Bibliothek_IO {
 		boolean rueck = (-1!=temp.insert(cardToInsert));
 		temp.close();
 		return rueck;
+	}
+
+	@Override
+	public boolean create_library(String libraryName) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public String lookUpForNewLibrarys() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
