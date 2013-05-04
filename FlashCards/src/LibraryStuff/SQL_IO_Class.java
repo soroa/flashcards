@@ -1,7 +1,9 @@
-package com.example.flashcards;
+package LibraryStuff;
 
 import java.io.File;
 import java.util.ArrayList;
+
+import flashcards.Flashcard_struct;
 
 import android.content.ContentValues;
 import android.content.Context;

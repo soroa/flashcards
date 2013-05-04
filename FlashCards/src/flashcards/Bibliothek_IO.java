@@ -1,24 +1,33 @@
-package com.example.flashcards;
+package flashcards;
+
+import android.content.res.Resources.NotFoundException;
 
  
 
 public interface Bibliothek_IO {
 	
+	/**
+	 * Returns all Names of existing librarys
+	 * @return a String-Array. Every Element contains a libraryname 
+	 */
+	public String[] get_existing_librarys();
+		
 	
 	
 	/**
-	 * creats a new library with the given name
-	 * @param name of the new library
-	 * @return if the library was created
+	 * creats a new library with the given name from the file
+	 * @param name got from library lookUpForNewLibrarys() 
+	 * @param the name that the library should be saved as.
+	 * @return if the library was created, false means that probably the name is already used
 	 */
-	public boolean create_library(String libraryName);
+	public boolean create_library(String originallibraryName, String newLibraryName) throws NotFoundException;
 	
 	
 	/**
 	 * looks up if there are unrecongized librarys
-	 * @return Filename of the new Library
+	 * @return Filenames in a String[] of the new Library
 	 */
-	public String lookUpForNewLibrarys();
+	public String[] lookUpForNewLibrarys();
 	
 	/**
 	 * Delete a existing library 

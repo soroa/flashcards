@@ -1,4 +1,4 @@
-package com.example.flashcards;
+package flashcards;
 
 public class Flashcard_struct {
 	public String question;
