@@ -43,4 +43,10 @@ public class MainLogic implements Logic {
 
 	}
 
+	@Override
+	public Flashcard_struct[] getUpdated() {
+		
+		return cardsToUse;
+	}
+
 }

@@ -17,16 +17,17 @@ public interface Bibliothek_IO extends Serializable{
 	
 	
 	/**
-	 * creats a new library with the given name from the file
+	 * Creates a new library with the given name from the file
 	 * @param name got from library lookUpForNewLibrarys() 
 	 * @param the name that the library should be saved as.
 	 * @return if the library was created, false means that probably the name is already used
+	 * (could also mean that original file could not be deleted)
 	 */
 	public boolean create_library(String originallibraryName, String newLibraryName) throws NotFoundException;
 	
 	
 	/**
-	 * looks up if there are unrecongized librarys
+	 * looks up if there are unrecognized librarys
 	 * @return Filenames in a String[] of the new Library
 	 */
 	public String[] lookUpForNewLibrarys();
@@ -92,5 +93,12 @@ public interface Bibliothek_IO extends Serializable{
 	 */
 	public boolean insert_new_Card(String library, Flashcard_struct cardToInsert);
 	
+	/**
+	 * Use this only with the given output of Logic.update()
+	 * @param name of the used library
+	 * @param updatedCards the output from Logic.update()
+	 * @return if all cards where updated
+	 */
+	public boolean update(String library, Flashcard_struct[] updatedCards);
 	
 }

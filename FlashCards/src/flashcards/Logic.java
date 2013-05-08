@@ -24,7 +24,11 @@ public interface Logic {
 	public void correctAnswer( boolean answer);
 	
 	
-	
+	/**
+	 * Get a updated Version of the cards (mistakes)
+	 * @return Flashcard_struct[] with the updated cards
+	 */
+	public Flashcard_struct[] getUpdated();
 	
 	
 	

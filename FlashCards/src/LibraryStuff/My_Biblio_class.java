@@ -194,7 +194,13 @@ public class My_Biblio_class implements Bibliothek_IO, Serializable{
 	public boolean create_library(String originallibraryName, String newLibraryName) throws NotFoundException {
 		File libs[] =find_new_Librarys();
 		if(libs==null){
-			throw new NotFoundException("Library can nto be load. It doesn't exist.");
+			throw new NotFoundException("Library can not be load. It doesn't exist.");
+		}
+		String existingLibrarys[]=load_library_names();
+		for (int i=0; i<existingLibrarys.length;i++){
+			if(newLibraryName.equals(existingLibrarys[i])){
+				return false;
+			}
 		}
 		for (int i =0 ; i<libs.length; i++){
 			if(libs[i].getAbsolutePath().endsWith(originallibraryName)){
@@ -206,11 +212,11 @@ public class My_Biblio_class implements Bibliothek_IO, Serializable{
 				for (int j = 0; j<woerter.length/2; j++){
 					library.insert(woerter[2*j], woerter[2*j+1], (short) 0);
 				}
-				library.close();
-				return true;
+				library.close();				
+				return libs[i].delete();
 			}
 		}
-		return false;
+		throw new NotFoundException("Library can not be load. It doesn't exist.");
 	}
 
 	/*private Flashcard_struct[] create_Flashcard_struct_array(String[] woerter){
@@ -236,5 +242,16 @@ public class My_Biblio_class implements Bibliothek_IO, Serializable{
 	public String[] get_existing_librarys() {
 		return load_library_names();
 	}
+
+
+	@Override
+	public boolean update(String library, Flashcard_struct[] updatedCards) {
+		boolean rueck=true;
+		for (int i=0; i<updatedCards.length; i++){
+			rueck=rueck && change_Word_byFront(library,updatedCards[i].question, updatedCards[i]);
+		}
+		return rueck;
+	}
+
 
 }
