@@ -1,12 +1,10 @@
 package flashcards;
 
-import java.io.Serializable;
-
 import android.content.res.Resources.NotFoundException;
 
  
 
-public interface Bibliothek_IO extends Serializable{
+public interface Bibliothek_IO {
 	
 	/**
 	 * Returns all Names of existing librarys

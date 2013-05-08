@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.OutputStreamWriter;
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
@@ -14,12 +13,8 @@ import android.os.Environment;
 import flashcards.Bibliothek_IO;
 import flashcards.Flashcard_struct;
 
-public class My_Biblio_class implements Bibliothek_IO, Serializable{
+public class My_Biblio_class implements Bibliothek_IO{
 
-	/**
-	 * schnittstelle
-	 */
-	private static final long serialVersionUID = 5468890590554649869L;
 	private Context main_context;
 
 	public My_Biblio_class(Context c) {
