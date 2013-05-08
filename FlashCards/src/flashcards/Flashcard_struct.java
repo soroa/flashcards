@@ -1,6 +1,8 @@
 package flashcards;
 
-public class Flashcard_struct {
+import java.io.Serializable;
+
+public class Flashcard_struct  {
 	public String question;
 	public String solution;
 	public short mistakes;

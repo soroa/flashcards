@@ -1,6 +1,7 @@
-package flashcards;
+package Interface;
 
 import com.example.flashcards.R;
+
 
 import android.os.Bundle;
 import android.app.Activity;
