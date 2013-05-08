@@ -19,8 +19,9 @@ public interface Logic {
 	 * gets Feedback about whether the user got the answer right or wrong in oder
 	 * eventually update the deck
 	 * @param answer
+	 * Doesn't need the card!
 	 */
-	public void correctAnswer(Flashcard_struct card, boolean answer);
+	public void correctAnswer( boolean answer);
 	
 	
 	
