@@ -16,5 +16,7 @@
 	<string name="newCardBack">Enter Back Side</string>
 	<string name="deleteWord">Delete Word</string>
 	<string name="deck_list_title">YOUR DECKS</string>
+	<string name="addCardButton">Add</string>
+	<string name="cancel">Cancel</string>
 	
 </resources>

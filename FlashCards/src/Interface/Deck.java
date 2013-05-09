@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import com.example.flashcards.R;
 
+import flashcards.Bibliothek_IO;
+import flashcards.Bibliothek_IO_Factory;
 import flashcards.Flashcard_struct;
 
 import android.os.Bundle;
@@ -19,15 +21,19 @@ import android.widget.EditText;
 public class Deck extends Activity {
 	
 	 Context context = this;
-	 Flashcard_struct deck;
+	 String  deck_name;
+	 Flashcard_struct[] deck;
+	 Bibliothek_IO lib;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_deck);
 		Intent i = getIntent();
-		deck = (Flashcard_struct) i.getSerializableExtra("deck");
-		
+		deck_name = i.getStringExtra("deck");
+		lib = Bibliothek_IO_Factory.create(getApplicationContext());
+		deck =  lib.getAllWords(deck_name);
+				
 	}
 
 	
@@ -39,9 +45,30 @@ public class Deck extends Activity {
 	}
 	
 	public void addWord(){
+		
 		Intent intent = new Intent(this, AddWord.class);
-		startActivity(intent);
+		//startActivityforResult(1,intent);
+		
+		
+	}
+	
+	private void startActivityforResult(int requestCode, int resultCode, Intent Data) {
+		 
+		 
+	}
+
+
+	public void study(){
+		Intent i = new Intent(this, Front.class);
+		//.... finish
 		
 	}
 
+	public void search(){
+		
+	}
+	
+	public void deleteWord(){
+		
+	}
 }

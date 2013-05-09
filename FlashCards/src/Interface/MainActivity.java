@@ -29,7 +29,8 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		lib = Bibliothek_IO_Factory.create(this);
+		//the library is created in different activity, always make sure that the context is the Application Context
+		lib = Bibliothek_IO_Factory.create(getApplicationContext());
 		String[] decks = lib.get_existing_librarys();
 
 	}
@@ -68,10 +69,10 @@ public class MainActivity extends Activity {
 				//item is a String of the name of the selected deck
 				final String item = (String) parent.getItemAtPosition(position);
 				//is getApplicationContext() right??
-				Intent i = new Intent(getApplicationContext(), Interface.Deck.class);
-				Flashcard_struct[] deck = lib.getAllWords(item);
+				Intent i = new Intent(MainActivity.this, Interface.Deck.class);
+				
 				// deck of type Flashcard struct is automatically converted to serializable 
-				i.putExtra("deck", deck);
+				i.putExtra("deck", item);
 				startActivity(i);
 				
 			}

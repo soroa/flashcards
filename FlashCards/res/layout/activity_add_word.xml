@@ -1,8 +1,8 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-   android:orientation  = "vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -10,17 +10,40 @@
     tools:context=".AddWord" >
 
     <EditText
-        android:id = "@+id/NewCardFront"
+        android:id="@+id/NewCardFront"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_width = "match_parent"
-        android:text = "@string/newCardFront"
-        ></EditText>
+        android:layout_alignParentLeft="true"
+        android:hint="@string/newCardFront"
+        android:inputType="text" >
+    </EditText>
+
+    <EditText
+        android:id="@+id/NewCardBack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/NewCardFront"
+        android:hint="@string/newCardBack" >
+    </EditText>
+
+    <Button
+        android:id="@+id/AddCardButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/NewCardBack"
+        android:text="@string/addWord"
+        android:layout_weight="0.5" >
+    </Button>
     
-     <EditText
-        android:id = "@+id/NewCardBack"
+    <Button
+        android:id="@+id/Cancel"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_width = "match_parent"
-        android:text = "@string/newCardBack"
-        ></EditText>
-     
-</LinearLayout>
+        android:layout_toRightOf="@+id/AddCardButton"
+        android:layout_below="@+id/NewCardBack"
+        android:text = "@string/cancel" 
+        android:layout_weight = "0.50" >
+        
+        </Button>
+
+</RelativeLayout>
