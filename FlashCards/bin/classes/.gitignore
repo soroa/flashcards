@@ -1,7 +1,7 @@
 /com
 /.gitignore
-/.DS_Store
-/Interface
-/LibraryStuff
-/LogicStuff
+/user_interface
 /flashcards
+/logic_stuff
+/library_stuff
+/bibliothek

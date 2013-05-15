@@ -1,4 +1,4 @@
-package LibraryStuff;
+package com.example.flashcards.database;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;

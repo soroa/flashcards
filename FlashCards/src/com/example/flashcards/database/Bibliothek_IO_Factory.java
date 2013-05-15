@@ -1,4 +1,4 @@
-package flashcards;
+package com.example.flashcards.database;
 
 
 import android.content.Context;
@@ -11,6 +11,6 @@ public class Bibliothek_IO_Factory {
 	 */
 	public static Bibliothek_IO create(Context c )
 	{
-		return new LibraryStuff.My_Biblio_class(c); 
+		return new com.example.flashcards.database.My_Biblio_class(c); 
 	}
 }

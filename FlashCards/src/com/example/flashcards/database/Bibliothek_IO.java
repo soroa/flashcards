@@ -1,4 +1,4 @@
-package flashcards;
+package com.example.flashcards.database;
 
 import android.content.res.Resources.NotFoundException;
 

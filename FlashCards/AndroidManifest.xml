@@ -7,8 +7,9 @@
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="17" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /><uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -16,7 +17,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="Interface.MainActivity"
+            android:name="com.example.flashcards.user_interface.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,12 +26,36 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="Interface.Front"
+            android:name="com.example.flashcards.user_interface.Card"
             android:label="@string/title_activity_front" >
         </activity>
         <activity
-            android:name="Interface.Back"
+            android:name="com.example.flashcards.user_interface.Back"
             android:label="@string/title_activity_back" >
+        </activity>
+        <activity
+            android:name="com.example.flashcards.user_interface.Search"
+            android:label="@string/title_activity_search" >
+        </activity>
+        <activity
+            android:name="com.example.flashcards.user_interface.DeleteWord"
+            android:label="@string/title_activity_delete_word" >
+        </activity>
+        <activity
+            android:name="com.example.flashcards.user_interface.AddWord"
+            android:label="@string/title_activity_add_word" >
+        </activity>
+        <activity
+            android:name="com.example.flashcards.user_interface.Deck"
+            android:label="@string/title_activity_deck" >
+        </activity>
+        <activity
+            android:name="com.example.flashcards.user_interface.NewDeck"
+            android:label="@string/title_activity_new_deck" >
+        </activity>
+        <activity
+            android:name="com.example.flashcards.user_interface.LibrariesImport"
+            android:label="@string/title_activity_libraries_import" >
         </activity>
     </application>
 

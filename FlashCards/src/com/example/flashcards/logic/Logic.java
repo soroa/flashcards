@@ -1,4 +1,6 @@
-package flashcards;
+package com.example.flashcards.logic;
+
+import com.example.flashcards.database.Flashcard_struct;
 
 
 

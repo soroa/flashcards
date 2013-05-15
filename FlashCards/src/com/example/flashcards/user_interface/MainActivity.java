@@ -1,29 +1,26 @@
-package Interface;
+package com.example.flashcards.user_interface;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.flashcards.R;
+import com.example.flashcards.database.Bibliothek_IO;
+import com.example.flashcards.database.Bibliothek_IO_Factory;
 
-import flashcards.Bibliothek_IO;
-import flashcards.Bibliothek_IO_Factory;
-import flashcards.Flashcard_struct;
 
 public class MainActivity extends Activity {
 	// Button deckButton ;
 	private Bibliothek_IO lib;
+	private String[] decks;
+	private final int DECK_IMPORT_REQUEST=1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +28,8 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		//the library is created in different activity, always make sure that the context is the Application Context
 		lib = Bibliothek_IO_Factory.create(getApplicationContext());
-		String[] decks = lib.get_existing_librarys();
-
+		decks = lib.get_existing_librarys();
+		setDecksListView(decks);
 	}
 
 	@Override
@@ -42,15 +39,11 @@ public class MainActivity extends Activity {
 		return true;
 	}
 
-	public void openDeck(View view) {
-		Intent intent = new Intent(this, Front.class);
-		startActivity(intent);
 
-	}
 
 	public void setDecksListView(String[] decks) {
 		if (decks.length==0){
-			Toast.makeText(getApplicationContext(), "No Decks Available", Toast.LENGTH_LONG);
+			Toast.makeText(getApplicationContext(), "No Decks Available", Toast.LENGTH_LONG).show();
 			return; 
 		}
 		final ListView listview = (ListView) findViewById(R.id.decklist);
@@ -69,7 +62,7 @@ public class MainActivity extends Activity {
 				//item is a String of the name of the selected deck
 				final String item = (String) parent.getItemAtPosition(position);
 				//is getApplicationContext() right??
-				Intent i = new Intent(MainActivity.this, Interface.Deck.class);
+				Intent i = new Intent(MainActivity.this, com.example.flashcards.user_interface.Deck.class);
 				
 				// deck of type Flashcard struct is automatically converted to serializable 
 				i.putExtra("deck", item);
@@ -78,6 +71,34 @@ public class MainActivity extends Activity {
 			}
 
 		});
+	}
+	
+	public void createNewDeck(View view){
+		
+		Intent i = new Intent(MainActivity.this, NewDeck.class);
+		startActivity(i);
+		
+		
+	}
+	
+	public void importDeck(View v){
+		String[] new_libs = lib.lookUpForNewLibrarys();
+		Intent i = new Intent(MainActivity.this, LibrariesImport.class);
+		Bundle b = new Bundle();
+		b.putStringArray("libs", new_libs);
+		i.putExtras(b);
+		startActivityForResult(i,this.DECK_IMPORT_REQUEST);
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if(requestCode==DECK_IMPORT_REQUEST){
+			Bundle b = data.getExtras();
+			String libSelected = b.getString("library");
+			lib.create_library(libSelected, libSelected);
+			
+		}
+		super.onActivityResult(requestCode, resultCode, data);
 	}
 
 }

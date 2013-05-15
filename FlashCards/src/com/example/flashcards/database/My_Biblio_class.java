@@ -1,4 +1,4 @@
-package LibraryStuff;
+package com.example.flashcards.database;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -7,11 +7,11 @@ import java.io.OutputStreamWriter;
 import java.util.Arrays;
 import java.util.List;
 
+
+
 import android.content.Context;
 import android.content.res.Resources.NotFoundException;
 import android.os.Environment;
-import flashcards.Bibliothek_IO;
-import flashcards.Flashcard_struct;
 
 public class My_Biblio_class implements Bibliothek_IO{
 

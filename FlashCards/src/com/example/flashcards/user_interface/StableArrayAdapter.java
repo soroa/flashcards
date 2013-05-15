@@ -1,4 +1,4 @@
-package Interface;
+package com.example.flashcards.user_interface;
 
 import java.util.HashMap;
 import java.util.List;

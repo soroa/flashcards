@@ -2,15 +2,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".AddWord" >
+    tools:context=".DeleteWord" >
 
-    <EditText
-        android:id="@+id/NewCardFront"
+
+ <EditText
+        android:id="@+id/DeleteCardFront"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -19,30 +19,32 @@
     </EditText>
 
     <EditText
-        android:id="@+id/NewCardBack"
+        android:id="@+id/DeleteCardBack"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/NewCardFront"
+        android:layout_below="@+id/DeleteCardFront"
         android:hint="@string/enterBack" >
     </EditText>
 
     <Button
-        android:id="@+id/AddCardButton"
+        android:id="@+id/DeleteCardButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/NewCardBack"
-        android:text="@string/addWord"
-        android:layout_weight="0.5" >
+        android:layout_below="@+id/DeleteCardBack"
+        android:text="@string/delete"
+        android:layout_weight="0.5"
+        android:onClick="delete" >
     </Button>
     
     <Button
-        android:id="@+id/Cancel"
+        android:id="@+id/DeleteCancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/AddCardButton"
-        android:layout_below="@+id/NewCardBack"
+        android:layout_toRightOf="@+id/DeleteCardButton"
+        android:layout_below="@+id/DeleteCardBack"
         android:text = "@string/cancel" 
-        android:layout_weight = "0.50" >
+      
+        >
         
         </Button>
 

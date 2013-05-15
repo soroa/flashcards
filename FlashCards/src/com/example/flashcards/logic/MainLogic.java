@@ -1,11 +1,13 @@
-package LogicStuff;
+package com.example.flashcards.logic;
 
+import java.io.Serializable;
 import java.util.Random;
 
-import flashcards.Flashcard_struct;
-import flashcards.Logic;
+import com.example.flashcards.database.Flashcard_struct;
 
-public class MainLogic implements Logic {
+
+
+public class MainLogic implements Logic, Serializable {
 
 	private Flashcard_struct[] cardsToUse;
 	private int laenge=0;
@@ -22,7 +24,7 @@ public class MainLogic implements Logic {
 
 	@Override
 	public Flashcard_struct nextCard() {
-		if(laenge==0){return new Flashcard_struct("Error, you did not use \"loadCards()\"!", "Error, you did not use \"loadCards()\"!");}
+		if(laenge==0){return null;}
 		int up;
 		int count=0;
 		do{
@@ -33,12 +35,13 @@ public class MainLogic implements Logic {
 		return cardsToUse[aktuell];
 	}
 
+	//changed, it was the opposite
 	@Override
 	public void correctAnswer(boolean answer) {
 		if(answer){
-			cardsToUse[aktuell].mistakes++;
-		}else{
 			cardsToUse[aktuell].mistakes--;
+		}else{
+			cardsToUse[aktuell].mistakes++;
 		}
 
 	}

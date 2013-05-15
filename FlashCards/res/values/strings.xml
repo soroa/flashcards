@@ -9,14 +9,26 @@
     <string name="TrialDeck">Trial Deck </string>
     <string name="title_activity_front">Front</string>
     <string name="title_activity_back">Back</string>
+    <string name="title_activity_add_word">AddWord</string>
+    <string name="title_activity_deck">Deck</string>
     <string name="study">Study</string>
     <string name="addWord">Add Word</string>
     <string name="searchWord">Search</string>
-	<string name="newCardFront">Enter Front Side</string>
-	<string name="newCardBack">Enter Back Side</string>
-	<string name="deleteWord">Delete Word</string>
-	<string name="deck_list_title">YOUR DECKS</string>
-	<string name="addCardButton">Add</string>
-	<string name="cancel">Cancel</string>
-	
+    <string name="enterFront">Enter Front Side</string>
+    <string name="enterBack">Enter Back Side</string>
+    <string name="deleteWord">Delete Word</string>
+    <string name="deck_list_title">YOUR DECKS</string>
+    <string name="addCardButton">Add</string>
+    <string name="cancel">Cancel</string>
+    <string name="title_activity_search">Search</string>
+    <string name="title_activity_delete_word">DeleteWord</string>
+    <string name="delete">Delete</string>
+    <string name="search">Search</string>
+    <string name="newDeck">New Deck</string>
+    <string name="title_activity_new_deck">NewDeck</string>
+    <string name="enterDeckName">Deck Name</string>
+    <string name="save">Save</string>
+    <string name="Import">Import Existing Deck</string>
+    <string name="title_activity_libraries_import">LibrariesImport</string>
+
 </resources>

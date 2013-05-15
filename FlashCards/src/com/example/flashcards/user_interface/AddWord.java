@@ -1,4 +1,4 @@
-package Interface;
+package com.example.flashcards.user_interface;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -27,21 +27,18 @@ public class AddWord extends Activity {
 	public void addCard() {
 		EditText etf = (EditText) findViewById(R.id.NewCardFront);
 		EditText etb = (EditText) findViewById(R.id.NewCardBack);
-		String back = etf.getText().toString();
-		String front = etb.getText().toString();
+		String front = etf.getText().toString();
+		String back = etb.getText().toString();
 		if ((back == "") || (front == "")) {
-			Toast.makeText(this, "Field missing", Toast.LENGTH_SHORT);
+			Toast.makeText(this, "Field missing", Toast.LENGTH_SHORT).show();
 			return;
 		}
 		else{
-			Intent returnIntent = new Intent();
+			Intent returnIntent = getIntent();
 			returnIntent.putExtra("Front", front);
 			returnIntent.putExtra("Back", back);
-			returnIntent.putExtra("result",1);
 			setResult(RESULT_OK, returnIntent);
-			
-			
-			
+			finish();
 			
 		}
 	}

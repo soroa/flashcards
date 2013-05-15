@@ -1,6 +1,8 @@
-package flashcards;
+package com.example.flashcards.database;
 
-public class Flashcard_struct  {
+import java.io.Serializable;
+
+public class Flashcard_struct implements Serializable {
 	public String question;
 	public String solution;
 	public short mistakes;
