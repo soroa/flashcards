@@ -31,6 +31,7 @@ public class MainLogic implements Logic, Serializable {
 			Random temp = new Random();
 			aktuell=temp.nextInt(laenge);
 			up=temp.nextInt(laenge)-laenge/2;
+			count++;
 		}while(cardsToUse[aktuell].mistakes>up && count<20);
 		return cardsToUse[aktuell];
 	}
@@ -39,11 +40,10 @@ public class MainLogic implements Logic, Serializable {
 	@Override
 	public void correctAnswer(boolean answer) {
 		if(answer){
-			cardsToUse[aktuell].mistakes--;
-		}else{
 			cardsToUse[aktuell].mistakes++;
+		}else{
+			cardsToUse[aktuell].mistakes--;
 		}
-
 	}
 
 	@Override
