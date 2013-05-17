@@ -1,4 +1,4 @@
-package Test;
+package com.example.flashcards.logic;
 
 import java.io.Serializable;
 import java.util.Random;
@@ -22,7 +22,7 @@ public void loadCards(Flashcard_struct[] card) {
 cardsToUse=card;
 laenge=cardsToUse.length;
 maxwert=1;
-for (int i =0; i<card.length();i++){
+for (int i =0; i<card.length;i++){
 	if(maxwert< card[i].mistakes){
 		maxwert=card[i].mistakes;
 	}
