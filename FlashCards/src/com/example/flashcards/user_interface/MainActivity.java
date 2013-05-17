@@ -3,6 +3,7 @@ package com.example.flashcards.user_interface;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -93,12 +94,28 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if(requestCode==DECK_IMPORT_REQUEST){
+			if(resultCode==RESULT_OK){
+				
 			Bundle b = data.getExtras();
+			
 			String libSelected = b.getString("library");
+			try{
 			lib.create_library(libSelected, libSelected);
+			}
+			catch(Exception e){
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				builder.setTitle(libSelected);
+				builder.setMessage(e.getLocalizedMessage());
+				builder.setPositiveButton("OK", null);
+				AlertDialog dialog = builder.show();
+			}
+			this.setDecksListView(decks);
+			
 			
 		}
+		
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 
+	}
 }

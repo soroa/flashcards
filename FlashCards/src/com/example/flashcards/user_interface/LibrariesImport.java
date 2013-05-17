@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 import com.example.flashcards.R;
 
 public class LibrariesImport extends Activity {
+	private String TAG = "DECK_IMPORT";
 	private String[] libs;
 
 	@Override
@@ -31,8 +33,7 @@ public class LibrariesImport extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.libraries_import, menu);
-		Intent i = getIntent();
-		Bundle b = i.getExtras();
+		
 
 		return true;
 	}
@@ -57,11 +58,13 @@ public class LibrariesImport extends Activity {
 			public void onItemClick(AdapterView<?> parent, final View view,
 					int position, long id) {
 				// item is a String of the name of the selected deck
+				
 				final String item = (String) parent.getItemAtPosition(position);
+				Log.v(TAG,"SELECTED LIBRARY = "+item);
 				Intent returnIntent = getIntent();
 				returnIntent.putExtra("library", item);
 				setResult(RESULT_OK, returnIntent);
-
+				finish();
 			}
 
 		});

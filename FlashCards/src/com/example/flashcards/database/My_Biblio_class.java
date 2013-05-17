@@ -25,7 +25,15 @@ public class My_Biblio_class implements Bibliothek_IO{
 	
 	private void addToLibraryList(String name){
 		String[] oldLibs = load_library_names();
-		List<String> temp = Arrays.asList(oldLibs);
+		List<String> temp ;
+		if(oldLibs ==null){
+			temp=null;
+		//temp = new List<String>();
+			
+		}else{
+			temp= Arrays.asList(oldLibs);
+		}
+		
 		temp.add(name);
 		String dir = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/flashcards/FlashcardsLibraryName.fclProtect");
 		ExternFileIO.writeStdPath(dir, temp.toArray(new String[temp.size()]), "{|}");
@@ -191,27 +199,32 @@ public class My_Biblio_class implements Bibliothek_IO{
 		if(libs==null){
 			throw new NotFoundException("Library can not be load. It doesn't exist.");
 		}
+		
 		String existingLibrarys[]=load_library_names();
 		for (int i=0; i<existingLibrarys.length;i++){
 			if(newLibraryName.equals(existingLibrarys[i])){
 				return false;
 			}
 		}
+		
 		for (int i =0 ; i<libs.length; i++){
 			if(libs[i].getAbsolutePath().endsWith(originallibraryName)){
 				String[] woerter = ExternFileIO.readStdFile(libs[i].getAbsolutePath());
 				
 				SQL_IO_Class library = new SQL_IO_Class(main_context, newLibraryName);
+				
 				addToLibraryList(newLibraryName);
+				return true;/*
 				library.openToWrite();
 				for (int j = 0; j<woerter.length/2; j++){
 					library.insert(woerter[2*j], woerter[2*j+1], (short) 0);
 				}
 				library.close();				
-				return libs[i].delete();
+				return libs[i].delete();*/
 			}
 		}
-		throw new NotFoundException("Library can not be load. It doesn't exist.");
+		//throw new NotFoundException("Library can not be load. It doesn't exist.");*/
+		return false;
 	}
 
 	/*private Flashcard_struct[] create_Flashcard_struct_array(String[] woerter){
@@ -228,7 +241,7 @@ public class My_Biblio_class implements Bibliothek_IO{
 		String rueck[] = new String[libs.length];
 		for( int i =0; i < libs.length;i++){
 			String path = libs[i].getAbsolutePath();
-			rueck[i]=path.substring(path.lastIndexOf('/'));
+			rueck[i]=path.substring(path.lastIndexOf('/')+1);
 		}
 		return rueck;
 	}
