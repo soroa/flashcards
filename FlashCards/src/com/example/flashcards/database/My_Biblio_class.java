@@ -9,9 +9,12 @@ import java.util.List;
 
 
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.res.Resources.NotFoundException;
+import android.graphics.Path;
 import android.os.Environment;
+import android.provider.ContactsContract.Directory;
 
 public class My_Biblio_class implements Bibliothek_IO{
 
@@ -23,37 +26,45 @@ public class My_Biblio_class implements Bibliothek_IO{
 	}
 
 	
-	private void addToLibraryList(String name){
+	private boolean addToLibraryList(String name){
 		String[] oldLibs = load_library_names();
-		List<String> temp ;
-		if(oldLibs ==null){
-			temp=null;
-		//temp = new List<String>();
-			
-		}else{
-			temp= Arrays.asList(oldLibs);
-		}
 		
-		temp.add(name);
+		/*if(oldLibs==null){return false;}
+		List<String> temp = (List<String>) Arrays.asList(oldLibs);
+		temp.add(name);*/
+		String[] temp = new String[oldLibs.length+1];
+		for (int i =0;i<oldLibs.length;i++){
+			temp[i]=oldLibs[i];
+		}
+		temp[oldLibs.length]=name;
 		String dir = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/flashcards/FlashcardsLibraryName.fclProtect");
-		ExternFileIO.writeStdPath(dir, temp.toArray(new String[temp.size()]), "{|}");
+		ExternFileIO.writeStdPath(dir, temp, "{|}");
+		//ExternFileIO.writeStdPath(dir, temp.toArray(new String[temp.size()]), "{|}");
+		return true;
 	}
 	
 	private String[] load_library_names() {
+		//Problem
+		
 		// filefilter to find the file with the saved librarynames
 		FilenameFilter libraryNameFilter = new FilenameFilter() {
 			public boolean accept(File dir, String name) {
-				if (name.equals("FlashcardsLibraryName.fclProtect")) {
+				if (name.endsWith("FlashcardsLibraryName.fclProtect")) {
 					return true;
 				} else {
 					return false;
 				}
 			}
 		};
-
-		File file[] = Environment.getExternalStorageDirectory().listFiles(
-				libraryNameFilter);
-
+		File file[];
+		
+		try{
+			File linkToData= new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/flashcards");
+			file = linkToData.listFiles(libraryNameFilter);
+		}catch (Exception e) {
+			return new String[0];
+		}
+		//android.view.Display("\n reached \n");
 		if (file.length == 0) {
 			try {
 				File sdCard = Environment.getExternalStorageDirectory();
@@ -71,12 +82,15 @@ public class My_Biblio_class implements Bibliothek_IO{
 				osw.close();
 				return new String[0];
 			} catch (Exception e) {
-				return null;
+				//show("","");
+				return new String[0];
 			}
 		} else {
-			File sdCard = Environment.getExternalStorageDirectory();
-			return ExternFileIO.readStdFile(sdCard.getAbsolutePath()
-					+ "/FlashcardsLibraryName.fclProtect");
+			//show("", "");
+			String dir = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/flashcards/FlashcardsLibraryName.fclProtect");
+			
+			return ExternFileIO.readStdFile(dir);
+			
 		}
 	}
 
@@ -107,11 +121,19 @@ public class My_Biblio_class implements Bibliothek_IO{
 
 	@Override
 	public Flashcard_struct[] getAllWords(String library) {
+		
 		SQL_IO_Class temp = new SQL_IO_Class(main_context, library);
+		
 		temp.openToRead();
-		Flashcard_struct[] rueck = temp.getAll();
+		Flashcard_struct[] rueck;
+		//try{
+			rueck= temp.getAll();
+		/*}catch (Exception e) {
+			return null;
+		}*/
 		temp.close();
 		return rueck;
+		
 	}
 
 	@Override
@@ -210,21 +232,27 @@ public class My_Biblio_class implements Bibliothek_IO{
 		for (int i =0 ; i<libs.length; i++){
 			if(libs[i].getAbsolutePath().endsWith(originallibraryName)){
 				String[] woerter = ExternFileIO.readStdFile(libs[i].getAbsolutePath());
-				
+				//woerter nicht leer bei create new Library 
+				//show("ExternFileIO", "ExternFileIO gibt nichts zurück");
+				//show(woerter[0], woerter[1]);
 				SQL_IO_Class library = new SQL_IO_Class(main_context, newLibraryName);
 				
+				
 				addToLibraryList(newLibraryName);
-				return true;/*
+				
 				library.openToWrite();
+				
 				for (int j = 0; j<woerter.length/2; j++){
 					library.insert(woerter[2*j], woerter[2*j+1], (short) 0);
 				}
-				library.close();				
-				return libs[i].delete();*/
+				library.close();	
+				//throw new NotFoundException("länge " + woerter[0]+woerter[1]+woerter[2]+woerter[3]+";");
+				return true;
+				//return libs[i].delete();
 			}
 		}
-		//throw new NotFoundException("Library can not be load. It doesn't exist.");*/
-		return false;
+		throw new NotFoundException("Library can not be load. It doesn't exist.");
+		//return false;
 	}
 
 	/*private Flashcard_struct[] create_Flashcard_struct_array(String[] woerter){
@@ -261,5 +289,32 @@ public class My_Biblio_class implements Bibliothek_IO{
 		return rueck;
 	}
 
+	private void show(String title, String text){
+		AlertDialog.Builder builder = new AlertDialog.Builder(null);
+		builder.setTitle(title);
+		builder.setMessage(text);
+		builder.setPositiveButton("OK", null);
+		AlertDialog dialog = builder.show();
+	}
+ 
+
+	@Override
+	public void loadExampleLibrary() {
+		// TODO Auto-generated method stub
+		String newLibraryName="TestLibrary";
+		SQL_IO_Class library = new SQL_IO_Class(main_context, newLibraryName);
+		
+		
+		addToLibraryList(newLibraryName);
+		
+		library.openToWrite();
+		String woerter[]=new String[]{"Apple", "Apfel","House", " Haus", "Andrea", "soo cool", "Michi", "gay"};
+		
+		for (int j = 0; j<woerter.length/2; j++){
+			library.insert(woerter[2*j], woerter[2*j+1], (short) 0);
+		}
+		library.close();	
+		return;
+	}
 
 }

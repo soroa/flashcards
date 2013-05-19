@@ -93,7 +93,7 @@ public class Deck extends Activity {
 
 	}
 
-	public void deleteCard() {
+	public void deleteCard(View v) {
 		Intent i = new Intent(this,DeleteWord.class);
 		i.putExtra("deck", deck);
 		startActivityForResult(i, 2);

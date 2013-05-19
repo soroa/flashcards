@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
@@ -22,6 +23,7 @@ public class MainActivity extends Activity {
 	private Bibliothek_IO lib;
 	private String[] decks;
 	private final int DECK_IMPORT_REQUEST=1;
+	private final String TAG = "MAIN ACTIVITY";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +31,17 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		//the library is created in different activity, always make sure that the context is the Application Context
 		lib = Bibliothek_IO_Factory.create(getApplicationContext());
+		String [] libs = lib.get_existing_librarys();
+		/*for (int i=0;i<libs.length;i++){
+			
+				lib.delete_library(libs[i]);
+			
+		}
+		*/
+		 lib.loadExampleLibrary();
+		
 		decks = lib.get_existing_librarys();
+		//Log.v(TAG, "# Libraries= " + decks.length);
 		setDecksListView(decks);
 	}
 
@@ -72,6 +84,7 @@ public class MainActivity extends Activity {
 			}
 
 		});
+		
 	}
 	
 	public void createNewDeck(View view){

@@ -99,4 +99,8 @@ public interface Bibliothek_IO {
 	 */
 	public boolean update(String library, Flashcard_struct[] updatedCards);
 	
+	/**
+	 * Will be deleted later
+	 */
+	public void loadExampleLibrary();
 }

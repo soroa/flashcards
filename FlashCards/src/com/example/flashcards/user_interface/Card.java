@@ -26,9 +26,8 @@ public class Card extends Activity {
 	private MainLogic myLogic;
 	// What side we are currently seeing: 1= front, -1 = back
 	private int side;
-	private String question;
-	private String answer;
 	private TextView view;
+	private Flashcard_struct currentCard;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,12 +38,12 @@ public class Card extends Activity {
 		Intent i = getIntent();
 		Bundle b = i.getExtras();
 		myLogic = (MainLogic) b.getSerializable("myLogic");
-		Flashcard_struct currentCard = myLogic.nextCard();
+		currentCard = myLogic.nextCard();
 		view = new TextView(this);
 		view = (TextView) findViewById((R.id.Card_text));
-		question = currentCard.question;
-		answer = currentCard.solution;
+		
 		view.setText(currentCard.question);
+		view.setTextSize(30);
 		side = 1;
 
 	}
@@ -71,7 +70,7 @@ public class Card extends Activity {
 			} else if ((e2.getX() - e1.getX()) > sensitvity) {
 
 				swipe_h = 1;// right
-
+				showFront();
 			} else {
 				swipe_h = -1;
 			}
@@ -80,13 +79,15 @@ public class Card extends Activity {
 
 				swipe_v = 0;// down: guess wrong
 				myLogic.correctAnswer(false);
-				nextCard(myLogic.nextCard());
+				currentCard = myLogic.nextCard();
+				nextCard();
 				
 
 			} else if ((e2.getY() - e1.getY()) > sensitvity) {
 				swipe_v = 1;// up:guessed right
 				myLogic.correctAnswer(true);
-				nextCard(myLogic.nextCard());
+				currentCard = myLogic.nextCard();
+				nextCard();
 			} else {
 				swipe_v += -1;
 			}
@@ -113,28 +114,31 @@ public class Card extends Activity {
 		 * startActivity(i);
 		 */
 		if(side==-1) return;
-		view.setText(answer);
+		view.setText(currentCard.solution);
+		view.setTextSize(30);
 		side= -1;
 	}
 	
 	public void showFront(){
 		if(side==1) return;
-		view.setText(question);
+		view.setText(currentCard.question);
+		view.setTextSize(30);
 		side=1;
 	}
 
 	/*
 	 * Calls the next card
 	 */
-	public void nextCard(Flashcard_struct next) {
-		if(next==null) {
+	public void nextCard() {
+	/*if(next==null) {
 			Toast.makeText(this,"You've reached ", Toast.LENGTH_LONG).show();
 			
 			finish();
-		}
+		}*/
 		side = 1; 
-		view.setText(next.question);
-		
+		view.setText(currentCard.question);
+		view.setTextSize(30);
+
 
 	}
 

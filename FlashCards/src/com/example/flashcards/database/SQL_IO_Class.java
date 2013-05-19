@@ -21,14 +21,14 @@ public class SQL_IO_Class {
 	public static final String KEY_ID = "_id";
 	public static final String KEY_QUESTION = "question";
 	public static final String KEY_SOLUTION = "solution";
-	public static final String KEY_MISTAKES = "Numb_of_m";
+	public static final String KEY_MISTAKES = "Number";
 	// public static final Calendar KEY_DATE = Calendar.getInstance();
 
 	private static final String SCRIPT_CREATE_DATABASE = "create table "
 			+ MYDATABASE_LIBRARY + " (" + KEY_ID
 			+ " integer primary key autoincrement, " + KEY_QUESTION
-			+ " text not null" + KEY_SOLUTION + " text not null" + KEY_MISTAKES
-			+ " number of mistakes" + ");";
+			+ " text not null, " + KEY_SOLUTION + " text not null, " + KEY_MISTAKES
+			+ " text not null);";
 
 	private SQLiteHelper sqLiteHelper;
 	private SQLiteDatabase sqLiteDatabase;
@@ -88,7 +88,7 @@ public class SQL_IO_Class {
 	 */
 	public boolean deleteAll() {
 		int worked;
-		worked=sqLiteDatabase.delete(libraryname, null, null);
+		worked=sqLiteDatabase.delete(MYDATABASE_LIBRARY, null, null);
 		if(worked!=1){
 			return false;
 		}
@@ -108,7 +108,7 @@ public class SQL_IO_Class {
 		do{
 			if(getFlashcard_structFromCursor(cursor).equals(card)){
 				String toDelete = cursor.getString(0);
-				sqLiteDatabase.delete(libraryname, KEY_ID+" = "+toDelete, null);
+				sqLiteDatabase.delete(MYDATABASE_LIBRARY, KEY_ID+" = "+toDelete, null);
 				return true;
 			}
 		}while(cursor.moveToNext());
@@ -119,7 +119,7 @@ public class SQL_IO_Class {
 	private Cursor queueAll() {
 		/*String[] columns = new String[] { KEY_ID, KEY_QUESTION, KEY_SOLUTION,
 				KEY_MISTAKES };*/ 
-		Cursor cursor = sqLiteDatabase.query(libraryname, null, null,
+		Cursor cursor = sqLiteDatabase.query(MYDATABASE_LIBRARY, null, null,
 				null, null, null, null);
 
 		return cursor;
@@ -131,14 +131,25 @@ public class SQL_IO_Class {
 	 */
 	public Flashcard_struct[] getAll() {
 		ArrayList<Flashcard_struct> list_Fc = new ArrayList<Flashcard_struct>();
-		Cursor allcards = queueAll();
+		Cursor allcards;
+		try{
+		 allcards = queueAll();
+		
 		allcards.moveToFirst();
+		
 		while(!allcards.isLast()){ //stops before the last card is reached
 			list_Fc.add(getFlashcard_structFromCursor(allcards));
 			allcards.moveToNext();
 		}
 		list_Fc.add(getFlashcard_structFromCursor(allcards));// add last card.
-		return (Flashcard_struct[]) list_Fc.toArray(); // hope it Works, produce Error
+		}catch (Exception e) {
+			return null; 
+		}
+		Flashcard_struct[] rueck = new Flashcard_struct[list_Fc.size()];
+		for( int i=0;i<list_Fc.size();i++){
+			rueck[i]=list_Fc.get(i);
+		}
+		return rueck; 
 	}
 	
 	/**
@@ -209,7 +220,7 @@ public class SQL_IO_Class {
 		return null; // if not found null will be reached
 	}
 	
-	/**
+	/** 
 	 * Is a Class for Class Word
 	 */
 	public class SQLiteHelper extends SQLiteOpenHelper {

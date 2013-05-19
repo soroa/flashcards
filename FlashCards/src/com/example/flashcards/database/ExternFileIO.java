@@ -23,66 +23,97 @@ public class ExternFileIO {
 				i = isr.read();
 			}
 			isr.close();
-		} catch (Exception e) {
-
+		} catch (Throwable e) {
+			// return new String[]{"Error 1",""};
 		}
 		String fileText = byteArrayOutputStream.toString();
+		try {
 
-		if (fileText.contains("FileStyle: {|}")
-				|| fileText.contains("FileStyle:{|}")) {
-			return encryptStyle(fileText, "{|}");
-		} else if (fileText.contains("FileStyle: @")
-				|| fileText.contains("FileStyle:@")) {
-			return encryptStyle(fileText,"@");
-		} else if (fileText.contains("FileStyle:\n")) {
-			return encryptStyle(fileText,"\n");
-		} else {
-			return null;
+			if (fileText.contains("FileStyle: {|}")
+					|| fileText.contains("FileStyle:{|}")) {
+				return encryptStyle(fileText, "{|}");
+			} else if (fileText.contains("FileStyle: @")
+					|| fileText.contains("FileStyle:@")) {
+				return encryptStyle(fileText, "@");
+			} else if (fileText.contains("FileStyle:\n")) {
+				return encryptStyle(fileText, "\n");
+			} else {
+				return null;
+			}
+
+		} catch (Exception e) {
+			return new String[] { "Error 3", "" };
 		}
-
 	}
 
 	/**
 	 * Tested It works
-	 * @param fileText Text from file
-	 * @param style style to encrypt
+	 * 
+	 * @param fileText
+	 *            Text from file
+	 * @param style
+	 *            style to encrypt
 	 * @return String-array Form of the inputfile (fileText)
 	 */
 	private static String[] encryptStyle(String fileText, String style) {
+
 		ArrayList<String> data = new ArrayList<String>();
-		int i=fileText.indexOf(style);
-		if(i==-1){return null;}
-		fileText=fileText.substring(i+style.length());
-		i=fileText.indexOf(style);
-		
-		do{
-		data.add(fileText.substring(0, i));
-		fileText=fileText.substring(i+style.length());
-		i=fileText.indexOf(style);
-		}while( i!=-1);
-		return  data.toArray(new String[data.size()]);
+
+		int i = fileText.indexOf(style);
+
+		if (i == -1) {
+			return new String[0];
+		}
+
+		fileText = fileText.substring(i + style.length());
+
+		i = fileText.indexOf(style);
+
+		do {
+			try {
+				data.add(fileText.substring(0, i));
+
+			} catch (Exception e) {
+				return new String[0];
+			}
+
+			fileText = fileText.substring(i + style.length());
+
+			i = fileText.indexOf(style);
+		} while (i != -1);
+
+		return data.toArray(new String[data.size()]);
+
+		/*
+		 * String rueck[]=new String[data.size()]; for (int j =0;
+		 * j<rueck.length;j++){ rueck[j]=data.get(j); } return rueck;
+		 */
 	}
 
 	/**
 	 * 
-	 * @param path means the path of the Library
-	 * @param data DAta to write in as String[]
-	 * @param encryptType Encrypttype as "{|}" or "@"
+	 * @param path
+	 *            means the path of the Library
+	 * @param data
+	 *            DAta to write in as String[]
+	 * @param encryptType
+	 *            Encrypttype as "{|}" or "@"
 	 */
-	public static void writeStdPath(String path, String[] data, String encryptType){
+	public static void writeStdPath(String path, String[] data,
+			String encryptType) {
 		File createfile = new File(path);
-		try{
-		FileOutputStream fOut = new FileOutputStream(createfile);
-		OutputStreamWriter osw = new OutputStreamWriter(fOut);
-		osw.write("FileStyle: "+encryptType);
-		for (int i = 0; i<data.length;i++){
-			osw.write(data[i]+encryptType);
-			osw.flush();	
+		try {
+			FileOutputStream fOut = new FileOutputStream(createfile);
+			OutputStreamWriter osw = new OutputStreamWriter(fOut);
+			osw.write("FileStyle: " + encryptType);
+			for (int i = 0; i < data.length; i++) {
+				osw.write(data[i] + encryptType);
+				osw.flush();
+			}
+			osw.close();
+		} catch (Exception e) {
+
 		}
-		osw.close();
-		}catch(Exception e){
-			
-		}
-		
+
 	}
 }
