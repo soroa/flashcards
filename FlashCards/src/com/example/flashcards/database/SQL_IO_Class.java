@@ -133,7 +133,7 @@ public class SQL_IO_Class {
 		ArrayList<Flashcard_struct> list_Fc = new ArrayList<Flashcard_struct>();
 		Cursor allcards;
 		try{
-		 allcards = queueAll();
+		allcards = queueAll();
 		
 		allcards.moveToFirst();
 		

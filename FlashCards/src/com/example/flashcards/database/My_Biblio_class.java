@@ -28,10 +28,7 @@ public class My_Biblio_class implements Bibliothek_IO{
 	
 	private boolean addToLibraryList(String name){
 		String[] oldLibs = load_library_names();
-		
-		/*if(oldLibs==null){return false;}
-		List<String> temp = (List<String>) Arrays.asList(oldLibs);
-		temp.add(name);*/
+	
 		String[] temp = new String[oldLibs.length+1];
 		for (int i =0;i<oldLibs.length;i++){
 			temp[i]=oldLibs[i];
@@ -40,6 +37,28 @@ public class My_Biblio_class implements Bibliothek_IO{
 		String dir = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/flashcards/FlashcardsLibraryName.fclProtect");
 		ExternFileIO.writeStdPath(dir, temp, "{|}");
 		//ExternFileIO.writeStdPath(dir, temp.toArray(new String[temp.size()]), "{|}");
+		return true;
+	}
+	
+	private boolean deleteFromList(String name){
+		String[] oldLibs = load_library_names();
+		
+		String[] temp = new String[oldLibs.length-1];
+		int found=0;
+		for (int i =0;i<oldLibs.length-found;i++){
+			if(oldLibs[i+found].equals(name)){
+				found++;
+				i--;
+			}else{
+				if(i<temp.length){
+					temp[i]=oldLibs[i+found];
+				}else{
+					return false;
+				}
+			}
+		}
+		String dir = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/flashcards/FlashcardsLibraryName.fclProtect");
+		ExternFileIO.writeStdPath(dir, temp, "{|}");
 		return true;
 	}
 	
@@ -119,11 +138,15 @@ public class My_Biblio_class implements Bibliothek_IO{
 
 	@Override
 	public boolean delete_library(String bibliothek) {
-		SQL_IO_Class temp = new SQL_IO_Class(main_context, bibliothek);
-		temp.openToWrite();
-		boolean rueck = (temp.deleteAll());
-		temp.close();
-		return rueck;
+		if (deleteFromList(bibliothek)) {
+			SQL_IO_Class temp = new SQL_IO_Class(main_context, bibliothek);
+			temp.openToWrite();
+			boolean rueck = (temp.deleteAll());
+			temp.close();
+			return rueck;
+		} else {
+			return false;
+		}
 	}
 
 	@Override
@@ -239,26 +262,21 @@ public class My_Biblio_class implements Bibliothek_IO{
 		for (int i =0 ; i<libs.length; i++){
 			if(libs[i].getAbsolutePath().endsWith(originallibraryName)){
 				String[] woerter = ExternFileIO.readStdFile(libs[i].getAbsolutePath());
-				//woerter nicht leer bei create new Library 
-				//show("ExternFileIO", "ExternFileIO gibt nichts zurück");
-				//show(woerter[0], woerter[1]);
+				
 				SQL_IO_Class library = new SQL_IO_Class(main_context, newLibraryName);
 				
-				
 				addToLibraryList(newLibraryName);
-				
 				library.openToWrite();
 				
 				for (int j = 0; j<woerter.length/2; j++){
 					library.insert(woerter[2*j], woerter[2*j+1], (short) 0);
 				}
 				library.close();	
-				//throw new NotFoundException("länge " + woerter[0]+woerter[1]+woerter[2]+woerter[3]+";");
+				
 				return libs[i].delete();
 			}
 		}
 		throw new NotFoundException("Library can not be load. It doesn't exist.");
-		//return false;
 	}
 
 	/*private Flashcard_struct[] create_Flashcard_struct_array(String[] woerter){
@@ -285,24 +303,14 @@ public class My_Biblio_class implements Bibliothek_IO{
 		return load_library_names();
 	}
 
-
 	@Override
 	public boolean update(String library, Flashcard_struct[] updatedCards) {
 		boolean rueck=true;
 		for (int i=0; i<updatedCards.length; i++){
-			rueck=rueck && change_Word_byFront(library,updatedCards[i].question, updatedCards[i]);
+			rueck=rueck && change_Word_byFront(library, updatedCards[i].question, updatedCards[i]);
 		}
 		return rueck;
 	}
-
-	private void show(String title, String text){
-		AlertDialog.Builder builder = new AlertDialog.Builder(null);
-		builder.setTitle(title);
-		builder.setMessage(text);
-		builder.setPositiveButton("OK", null);
-		AlertDialog dialog = builder.show();
-	}
- 
 
 	@Override
 	public void loadExampleLibrary() {
@@ -327,6 +335,27 @@ public class My_Biblio_class implements Bibliothek_IO{
 		}
 		library.close();	
 		return;
+	}
+
+	@Override
+	public boolean create_library_from_one_word(String libraryName, Flashcard_struct card) {
+		String newLibraryName="TestLibrary";
+		SQL_IO_Class library = new SQL_IO_Class(main_context, newLibraryName);
+		
+		String[] existingLibs=load_library_names();
+		for (int i=0; i<existingLibs.length; i++){
+			if(existingLibs[i].equals(newLibraryName)){
+				return false;
+			}
+		}
+		
+		addToLibraryList(newLibraryName);
+		
+		library.openToWrite();
+		library.insert(card.question, card.solution, card.mistakes);
+		library.close();	
+		
+		return true;
 	}
 
 }
