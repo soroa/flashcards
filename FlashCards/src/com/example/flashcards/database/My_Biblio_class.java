@@ -193,7 +193,7 @@ public class My_Biblio_class implements Bibliothek_IO{
 			return false;
 		}
 		temp.openToWrite();
-		boolean rueck = temp.deleteFlashcard_struct(cardToDelete);
+		boolean rueck = temp.deleteFlashcard_struct(cardToDelete); //Does not work
 		temp.close();
 		return rueck;
 	}

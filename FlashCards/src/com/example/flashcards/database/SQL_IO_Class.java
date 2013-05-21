@@ -106,7 +106,7 @@ public class SQL_IO_Class {
 		Cursor cursor = queueAll();
 		cursor.moveToFirst();
 		do{
-			if(getFlashcard_structFromCursor(cursor).equals(card)){
+			if(getFlashcard_structFromCursor(cursor).question.equals(card.question) && getFlashcard_structFromCursor(cursor).solution.equals(card.solution)){
 				String toDelete = cursor.getString(0);
 				sqLiteDatabase.delete(MYDATABASE_LIBRARY, KEY_ID+" = "+toDelete, null);
 				return true;

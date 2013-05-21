@@ -1,6 +1,7 @@
 package com.example.flashcards.user_interface;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -39,7 +40,15 @@ public class DeleteWord extends Activity {
 		EditText etBack = (EditText)findViewById(R.id.DeleteCardBack);
 		String Front = etFront.getText().toString();
 		String Back = etBack.getText().toString();
-		if ((Back == "") && (Front == "")) {
+		/*//Test 
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("Reached");
+		builder.setMessage("Front is = \""+Front+"\"\nBack is = \""+Back+"\"");
+		builder.setPositiveButton("OK", null);
+		AlertDialog dialog = builder.show();
+		*/ 
+		if ((Back.equals("")) && (Front.equals(""))) {
+			
 			Toast.makeText(this, "You need to fill in at least one field", Toast.LENGTH_SHORT).show();
 			return;
 		}
@@ -49,7 +58,6 @@ public class DeleteWord extends Activity {
 			returnIntent.putExtra("Back", Back);
 			setResult(RESULT_OK, returnIntent);
 			finish();
-			
 		
 	}
 	

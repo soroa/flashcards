@@ -1,6 +1,7 @@
 package com.example.flashcards.user_interface;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -81,16 +82,24 @@ public class Deck extends Activity {
 				Bundle data = Data.getExtras();
 				String Front = data.getString("Front");
 				String Back = data.getString("Back");
-				if(Front==""){
-					lib.delete_Word_byBack(deck_name, Back);
+				boolean deleted=false;
+				if(Front.equals("")){
+					deleted=lib.delete_Word_byBack(deck_name, Back);
 				}
 				else{
-					lib.delete_Word_byFront(deck_name, Front);
-					
+					deleted=lib.delete_Word_byFront(deck_name, Front);
 				}
+				if(deleted){
 				//Deck and Logic update
 				deck = lib.getAllWords(deck_name);
 				myLogic.loadCards(deck);
+				}else{
+					AlertDialog.Builder builder = new AlertDialog.Builder(this);
+					builder.setTitle("Error Message");
+					builder.setMessage("Card is not deleted. Please, check for wrong input");
+					builder.setPositiveButton("OK", null);
+					builder.show();
+				}
 			
 			}
 		}
@@ -120,7 +129,7 @@ public class Deck extends Activity {
 	}
 
 	public void deleteCard(View v) {
-		Intent i = new Intent(this,DeleteWord.class);
+		Intent i = new Intent(this, DeleteWord.class);
 		SerializableDeck d = new SerializableDeck(deck);
 		i.putExtra("deck", d);
 		startActivityForResult(i, DELETE_CARD);
