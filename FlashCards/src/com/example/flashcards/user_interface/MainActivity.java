@@ -124,8 +124,8 @@ public class MainActivity extends Activity {
 				AlertDialog dialog = builder.show();
 			}
 			this.setDecksListView(decks);
-			
-			
+			decks = lib.get_existing_librarys();
+			setDecksListView(decks);
 		}
 		
 		super.onActivityResult(requestCode, resultCode, data);

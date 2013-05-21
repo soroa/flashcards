@@ -106,7 +106,14 @@ public class My_Biblio_class implements Bibliothek_IO{
 			}
 		};
 		
-		File file[] = Environment.getExternalStorageDirectory().listFiles(libraryFilter);
+		File firstfiles[] = Environment.getExternalStorageDirectory().listFiles(libraryFilter);
+		File linkToData= new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/flashcards");
+		File additionalfiles[]=linkToData.listFiles(libraryFilter);
+		
+		File file[]=new File[firstfiles.length+additionalfiles.length];
+		System.arraycopy(firstfiles, 0, file, 0, firstfiles.length);
+		System.arraycopy(additionalfiles, 0, file, firstfiles.length, additionalfiles.length);
+		
 		return file;
 	}
 
@@ -247,8 +254,7 @@ public class My_Biblio_class implements Bibliothek_IO{
 				}
 				library.close();	
 				//throw new NotFoundException("länge " + woerter[0]+woerter[1]+woerter[2]+woerter[3]+";");
-				return true;
-				//return libs[i].delete();
+				return libs[i].delete();
 			}
 		}
 		throw new NotFoundException("Library can not be load. It doesn't exist.");
@@ -304,11 +310,17 @@ public class My_Biblio_class implements Bibliothek_IO{
 		String newLibraryName="TestLibrary";
 		SQL_IO_Class library = new SQL_IO_Class(main_context, newLibraryName);
 		
+		String[] existingLibs=load_library_names();
+		for (int i=0; i<existingLibs.length; i++){
+			if(existingLibs[i].equals(newLibraryName)){
+				return;
+			}
+		}
 		
 		addToLibraryList(newLibraryName);
 		
 		library.openToWrite();
-		String woerter[]=new String[]{"Apple", "Apfel","House", " Haus", "Andrea", "soo cool", "Michi", "gay"};
+		String woerter[]=new String[]{"Apple", "Apfel","House", " Haus", "Andrea", "asozial", "Michael", "cool"};
 		
 		for (int j = 0; j<woerter.length/2; j++){
 			library.insert(woerter[2*j], woerter[2*j+1], (short) 0);
