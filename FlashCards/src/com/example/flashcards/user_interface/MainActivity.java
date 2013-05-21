@@ -38,10 +38,11 @@ public class MainActivity extends Activity {
 			
 		}
 		*/
-		 lib.loadExampleLibrary();
+		 //lib.loadExampleLibrary();
 		
 		decks = lib.get_existing_librarys();
-		//Log.v(TAG, "# Libraries= " + decks.length);
+		Log.v(TAG, "# Libraries= " + decks.length);
+		
 		setDecksListView(decks);
 	}
 

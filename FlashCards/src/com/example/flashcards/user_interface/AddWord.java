@@ -3,7 +3,9 @@ package com.example.flashcards.user_interface;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -24,7 +26,7 @@ public class AddWord extends Activity {
 		return true;
 	}
 
-	public void addCard() {
+	public void addCard(View v) {
 		EditText etf = (EditText) findViewById(R.id.NewCardFront);
 		EditText etb = (EditText) findViewById(R.id.NewCardBack);
 		String front = etf.getText().toString();
@@ -35,9 +37,11 @@ public class AddWord extends Activity {
 		}
 		else{
 			Intent returnIntent = getIntent();
+			
 			returnIntent.putExtra("Front", front);
 			returnIntent.putExtra("Back", back);
 			setResult(RESULT_OK, returnIntent);
+			Log.v("AddCard", "about to finish activity");
 			finish();
 			
 		}

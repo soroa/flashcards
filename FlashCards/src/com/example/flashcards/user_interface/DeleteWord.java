@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.flashcards.R;
 import com.example.flashcards.database.Flashcard_struct;
+import com.example.flashcards.database.SerializableDeck;
 
 
 
@@ -21,8 +23,8 @@ public class DeleteWord extends Activity {
 		setContentView(R.layout.activity_delete_word);
 		Intent i = getIntent();
 		Bundle b = i.getExtras();
-		 deck =(Flashcard_struct[])b.getSerializable("deck");
-		
+		 SerializableDeck d =(SerializableDeck)b.getSerializable("deck");
+		deck = d.extractDeck();
 	}
 
 	@Override
@@ -32,7 +34,7 @@ public class DeleteWord extends Activity {
 		return true;
 	}
 	
-	public void delete(){
+	public void delete(View v){
 		EditText etFront= (EditText)findViewById(R.id.DeleteCardFront);
 		EditText etBack = (EditText)findViewById(R.id.DeleteCardBack);
 		String Front = etFront.getText().toString();

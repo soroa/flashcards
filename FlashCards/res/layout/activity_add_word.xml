@@ -32,7 +32,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/NewCardBack"
         android:text="@string/addWord"
-        android:layout_weight="0.5" >
+        android:layout_weight="0.5" 
+        android:onClick= "addCard">
     </Button>
     
     <Button

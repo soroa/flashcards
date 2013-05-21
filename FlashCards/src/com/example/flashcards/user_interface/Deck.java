@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Toast;
@@ -12,16 +13,19 @@ import com.example.flashcards.R;
 import com.example.flashcards.database.Bibliothek_IO;
 import com.example.flashcards.database.Bibliothek_IO_Factory;
 import com.example.flashcards.database.Flashcard_struct;
+import com.example.flashcards.database.SerializableDeck;
 import com.example.flashcards.logic.MainLogic;
 
 
 public class Deck extends Activity {
 
-	Context context = this;
-	String deck_name;
-	Flashcard_struct[] deck;
-	Bibliothek_IO lib;
-	MainLogic myLogic;
+	private static final int DELETE_CARD = 2;
+	private Context context = this;
+	private String deck_name;
+	private Flashcard_struct[] deck;
+	private Bibliothek_IO lib;
+	private MainLogic myLogic;
+	private static final int ADD_CARD= 1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,28 +47,36 @@ public class Deck extends Activity {
 		return true;
 	}
 
-	public void addWord(View v) {
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode,Intent Data) {
+		if (requestCode == ADD_CARD) {
+			Log.v("Deck", "Result code "+Integer.toString(resultCode));
 
-		Intent intent = new Intent(this, AddWord.class);
-		startActivityForResult(intent, 1);
-
-	}
-
-	private void onActivityforResult(int requestCode, int resultCode,
-			Intent Data) {
-		if (requestCode == 1) {
 			if (resultCode == RESULT_OK) {
 				Bundle data = Data.getExtras();
 				String Front = data.getString("Front");
 				String Back = data.getString("Back");
 				Flashcard_struct newCard = new Flashcard_struct(Front, Back);
-				lib.insert_new_Card(deck_name, newCard);
-				Toast.makeText(this, "New Card successfully added",
-						Toast.LENGTH_LONG).show();
-			//TODO : Logic update				
+				Log.v("Deck", "new Card Created");
+				
+				if (lib.insert_new_Card(deck_name, newCard)){
+					Toast.makeText(this, "New Card successfully added",
+							Toast.LENGTH_LONG).show();		
+					deck = lib.getAllWords(deck_name);
+					myLogic.loadCards(deck);
+
+				}
+				else {
+					Toast.makeText(this, "Something went wrong, try again",
+							Toast.LENGTH_LONG).show();		
+				}
+				//Deck and Logic update
+				deck = lib.getAllWords(deck_name);
+				myLogic.loadCards(deck);
+				
 			}
 		}
-		if (requestCode==2){
+		if (requestCode==DELETE_CARD){
 			if (resultCode==RESULT_OK){
 				Bundle data = Data.getExtras();
 				String Front = data.getString("Front");
@@ -76,10 +88,19 @@ public class Deck extends Activity {
 					lib.delete_Word_byFront(deck_name, Front);
 					
 				}
-			//TODO : UPDATE
+				//Deck and Logic update
+				deck = lib.getAllWords(deck_name);
+				myLogic.loadCards(deck);
 			
 			}
 		}
+	}
+	
+	public void addWord(View v) {
+
+		Intent intent = new Intent(this, AddWord.class);
+		startActivityForResult(intent, ADD_CARD);
+
 	}
 
 	public void study(View v) {
@@ -90,14 +111,19 @@ public class Deck extends Activity {
 	}
 
 	public void search(View v) {
+		Intent i = new Intent(this,Search.class);
+		SerializableDeck d = new SerializableDeck(deck);
+		i.putExtra("deck", d);
+		startActivity(i);
+		
 
 	}
 
 	public void deleteCard(View v) {
 		Intent i = new Intent(this,DeleteWord.class);
-		i.putExtra("deck", deck);
-		startActivityForResult(i, 2);
-		
+		SerializableDeck d = new SerializableDeck(deck);
+		i.putExtra("deck", d);
+		startActivityForResult(i, DELETE_CARD);
 
 	}
 }
