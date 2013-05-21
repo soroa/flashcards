@@ -14,16 +14,15 @@ public interface Bibliothek_IO {
 	/**
 	 * Creates a new library with the given name from the file
 	 * 
-	 * @param name
-	 *            got from library lookUpForNewLibrarys()
-	 * @param the
-	 *            name that the library should be saved as.
+	 * @param originallibraryName
+	 *           name got from library lookUpForNewLibrarys()
+	 * @param newLibraryName
+	 *           the name that the library should be saved as.
 	 * @return if the library was created, false means that probably the name is
 	 *         already used (could also mean that original file could not be
 	 *         deleted)
 	 */
-	public boolean create_library(String originallibraryName,
-			String newLibraryName) throws NotFoundException;
+	public boolean create_library(String originallibraryName, String newLibraryName) throws NotFoundException;
 
 	/**
 	 * looks up if there are unrecognized librarys
@@ -35,8 +34,7 @@ public interface Bibliothek_IO {
 	/**
 	 * Delete a existing library
 	 * 
-	 * @param name
-	 *            of the library to delete
+	 * @param library name of the library to delete
 	 * @return if library has been deleted
 	 */
 	public boolean delete_library(String library);
@@ -44,8 +42,7 @@ public interface Bibliothek_IO {
 	/**
 	 * Get all Words in a Flashcard_struct-Array
 	 * 
-	 * @param name
-	 *            of the library to delete
+	 * @param library name of the library to delete
 	 * @return all Flashcards
 	 */
 	public Flashcard_struct[] getAllWords(String library);
@@ -54,12 +51,9 @@ public interface Bibliothek_IO {
 	 * change a card of a library (Attention can cause problems if some cards
 	 * have the same front)
 	 * 
-	 * @param name
-	 *            of the library to delete
-	 * @param The
-	 *            Frontside of the flashcard that should be changed
-	 * @param The
-	 *            new corrected Flashcard
+	 * @param library name of the library to delete
+	 * @param question The Frontside of the flashcard that should be changed
+	 * @param newcard The new corrected Flashcard
 	 * @return if Flashcard is updated
 	 */
 	public boolean change_Word_byFront(String library, String question,
@@ -69,12 +63,9 @@ public interface Bibliothek_IO {
 	 * change a card of a library (Attention can cause problems if some cards
 	 * have the same back)
 	 * 
-	 * @param library
-	 *           name of the library to delete
-	 * @param solution
-	 *            The Backside of the flashcard that should be changed
-	 * @param newcard
-	 *            The new corrected Flashcard
+	 * @param library name of the library to delete
+	 * @param solution The Backside of the flashcard that should be changed
+	 * @param newcard The new corrected Flashcard
 	 * @return if Flashcard is updated
 	 */
 	public boolean change_Word_byBack(String library, String solution,
@@ -84,10 +75,8 @@ public interface Bibliothek_IO {
 	 * delete a word of a library (Attention can cause problems if some cards
 	 * have the same front)
 	 * 
-	 * @param name
-	 *            of the library to delete
-	 * @param The
-	 *            Frontside of the flashcard that should be deleted
+	 * @param library name of the library to delete
+	 * @param question The Frontside of the flashcard that should be deleted
 	 * @return if Flashcard is deleted
 	 */
 	public boolean delete_Word_byFront(String library, String question);
@@ -96,10 +85,8 @@ public interface Bibliothek_IO {
 	 * delete a word of a library (Attention can cause problems if some cards
 	 * have the same back)
 	 * 
-	 * @param name
-	 *            of the library to delete
-	 * @param The
-	 *            Backside of the flashcard that should be deleted
+	 * @param library name of the library to delete
+	 * @param solution The Backside of the flashcard that should be deleted
 	 * @return if Flashcard is deleted
 	 */
 	public boolean delete_Word_byBack(String library, String solution);
